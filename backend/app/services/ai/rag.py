@@ -5,11 +5,14 @@ from openai import OpenAI
 
 load_dotenv()
 
-# Configure OpenAI
-api_key = os.getenv("OPENAI_API_KEY")
+# Configure OpenAI to use Gemini API
+api_key = os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")
 client = None
 if api_key and api_key != "your_openai_api_key_here":
-    client = OpenAI(api_key=api_key)
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+    )
 
 # Initialize ChromaDB client for RAG
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
@@ -70,7 +73,7 @@ Question: {query}"""
             return "OpenAI API key not configured. Please set OPENAI_API_KEY in your .env file."
 
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gemini-2.5-flash",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message},

@@ -7,8 +7,11 @@ from typing import List
 
 load_dotenv()
 
-api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key) if api_key and api_key != "your_openai_api_key_here" else None
+api_key = os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")
+client = OpenAI(
+    api_key=api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+) if api_key and api_key != "your_openai_api_key_here" else None
 
 class VideoAnalysisFeedback(BaseModel):
     summary: str
@@ -47,7 +50,7 @@ Ensure your response follows the precise JSON schema requested."""
         combined_prompt = f"{system_prompt}\n\nCoaching Focus: {prompt}"
 
         response = client.beta.chat.completions.parse(
-            model="gpt-4o",
+            model="gemini-2.5-pro",
             messages=[
                 {
                     "role": "user",
