@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pydantic
+firebase-admin
+openai
+chromadb
+python-dotenv
+python-multipart
+sqlalchemy
+python-jose[cryptography]
+passlib
+bcrypt
+pypdf

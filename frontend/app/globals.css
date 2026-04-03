@@ -1,0 +1,301 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #000000;
+    color: #e5e5e5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgba(0, 255, 136, 0.3);
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333333;
+  }
+}
+
+@layer components {
+  /* Glass Card — Dark with green edge glow */
+  .glass-card {
+    @apply bg-surface-900/80 backdrop-blur-xl border border-surface-700/30 rounded-2xl;
+    box-shadow: 0 0 1px rgba(0, 255, 136, 0.1), 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    @apply border-brand-500/40 -translate-y-1;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.08), 0 12px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Gradient Text — Green Neon */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #10b981 0%, #00ff88 40%, #34d399 70%, #6ee7b7 100%);
+  }
+
+  .gradient-text-brand {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #059669 0%, #10b981 40%, #00ff88 100%);
+  }
+
+  /* Neon Glow Text */
+  .neon-text {
+    color: #00ff88;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5), 0 0 30px rgba(0, 255, 136, 0.2);
+  }
+
+  .neon-text-subtle {
+    color: #10b981;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+  }
+
+  /* Orbitron Display Font */
+  .font-display {
+    font-family: 'Orbitron', monospace;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply relative overflow-hidden bg-brand-600 hover:bg-brand-500 text-white font-semibold py-3 px-6 rounded-xl 
+    transition-all duration-300 active:scale-[0.97];
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2), 0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .btn-primary::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full;
+    transition: transform 0.6s ease;
+  }
+
+  .btn-primary:hover::after {
+    @apply translate-x-full;
+  }
+
+  .btn-secondary {
+    @apply border border-surface-600 hover:border-brand-500/50 text-surface-300 hover:text-white 
+    font-medium py-3 px-6 rounded-xl transition-all duration-300 bg-surface-900/50 hover:bg-surface-800/80
+    active:scale-[0.97];
+  }
+
+  .btn-secondary:hover {
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.08);
+  }
+
+  .btn-ghost {
+    @apply text-surface-400 hover:text-brand-400 hover:bg-surface-900/50 font-medium py-2 px-4 rounded-lg 
+    transition-all duration-200;
+  }
+
+  /* Input Styles */
+  .input-field {
+    @apply w-full bg-black/60 border border-surface-700/50 rounded-xl py-3 px-4 text-white 
+    placeholder:text-surface-500 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500/60 
+    transition-all duration-200;
+  }
+
+  .input-field:focus {
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.08);
+  }
+
+  /* Stat Card with green accent line */
+  .stat-card {
+    @apply glass-card p-6 relative overflow-hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-[2px];
+  }
+
+  .stat-card-green::before {
+    background: linear-gradient(to right, #059669, #00ff88);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  }
+
+  .stat-card-emerald::before {
+    background: linear-gradient(to right, #10b981, #34d399);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  }
+
+  .stat-card-lime::before {
+    background: linear-gradient(to right, #84cc16, #a3e635);
+    box-shadow: 0 0 10px rgba(132, 204, 22, 0.3);
+  }
+
+  .stat-card-teal::before {
+    background: linear-gradient(to right, #14b8a6, #2dd4bf);
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.3);
+  }
+
+  .stat-card-grey::before {
+    background: linear-gradient(to right, #525252, #a3a3a3);
+  }
+
+  /* Sidebar */
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-surface-400 hover:text-brand-400 
+    hover:bg-surface-800/60 transition-all duration-200 text-sm font-medium;
+  }
+
+  .sidebar-link-active {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-brand-400 
+    text-sm font-medium;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(0, 255, 136, 0.05) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.05);
+  }
+
+  /* Page Container — pitch black with green ambient */
+  .page-container {
+    @apply min-h-screen;
+    background-color: #000000;
+    background-image: 
+      radial-gradient(ellipse at 20% 0%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(0, 255, 136, 0.03) 0%, transparent 50%);
+  }
+
+  /* Mesh Gradient Background — green themed */
+  .mesh-bg {
+    background-color: #000000;
+    background-image:
+      radial-gradient(at 27% 37%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+      radial-gradient(at 97% 21%, rgba(0, 255, 136, 0.06) 0px, transparent 50%),
+      radial-gradient(at 52% 99%, rgba(5, 150, 105, 0.05) 0px, transparent 50%),
+      radial-gradient(at 10% 29%, rgba(34, 197, 94, 0.04) 0px, transparent 50%);
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .badge-green {
+    @apply bg-brand-500/15 text-brand-300 border border-brand-500/25;
+    text-shadow: 0 0 5px rgba(0, 255, 136, 0.2);
+  }
+
+  .badge-emerald {
+    @apply bg-emerald-500/15 text-emerald-300 border border-emerald-500/25;
+  }
+
+  .badge-lime {
+    @apply bg-lime-500/15 text-lime-300 border border-lime-500/25;
+  }
+
+  .badge-amber {
+    @apply bg-amber-500/15 text-amber-300 border border-amber-500/25;
+  }
+
+  .badge-rose {
+    @apply bg-rose-500/15 text-rose-300 border border-rose-500/25;
+  }
+
+  .badge-grey {
+    @apply bg-neutral-500/15 text-neutral-300 border border-neutral-500/25;
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    @apply w-full h-2 bg-surface-800 rounded-full overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-1000 ease-out;
+  }
+
+  /* Glow Effects */
+  .glow-green {
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.25), 0 0 60px rgba(0, 255, 136, 0.1);
+  }
+
+  .glow-green-subtle {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+  }
+
+  .glow-border {
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.1), inset 0 0 8px rgba(0, 255, 136, 0.03);
+  }
+
+  /* Dot Pattern Overlay */
+  .dot-pattern {
+    background-image: radial-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Grid Lines Pattern */
+  .grid-pattern {
+    background-image: 
+      linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Sports Field Gradient */
+  .field-gradient {
+    background: linear-gradient(180deg, 
+      rgba(0, 0, 0, 0.9) 0%, 
+      rgba(15, 92, 38, 0.15) 50%, 
+      rgba(0, 0, 0, 0.95) 100%);
+  }
+
+  /* Scan Line Effect */
+  .scan-effect::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.03) 50%, transparent 100%);
+    animation: scanLine 4s linear infinite;
+  }
+
+  /* Shimmer Effect */
+  .shimmer-effect {
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.04), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
