@@ -2,18 +2,55 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Zap, Mail, Lock, User, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Zap, Mail, Lock, User, ArrowRight, AlertCircle, Loader2 } from "lucide-react";
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("athlete");
   const [sport, setSport] = useState("General");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = role === "athlete" ? "/athlete/dashboard" : role === "coach" ? "/coach/dashboard" : "/management/dashboard";
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          full_name: name,
+          role: role,
+          primary_sport: sport
+        }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        setError(errData.detail || "Registration failed. Please try again.");
+        setIsLoading(false);
+        return;
+      }
+
+      const data = await res.json();
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("role", data.role);
+
+      window.location.href = role === "athlete" ? "/athlete/dashboard" : role === "coach" ? "/coach/dashboard" : "/management/dashboard";
+    } catch (err) {
+      setError("Network error. Please try again later.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -31,6 +68,13 @@ export default function RegisterPage() {
         </div>
 
         <form onSubmit={handleRegister} className="glass-card p-8 space-y-5">
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+              <p>{error}</p>
+            </div>
+          )}
+
           <div>
             <label className="text-xs font-medium text-surface-400 mb-1.5 block">Full Name</label>
             <div className="relative">
@@ -49,7 +93,7 @@ export default function RegisterPage() {
             <label className="text-xs font-medium text-surface-400 mb-1.5 block">Password</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-surface-600" />
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input-field !pl-10" placeholder="Min 8 characters" required />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input-field !pl-10" placeholder="Min 8 characters" required minLength={8} />
             </div>
           </div>
           <div>
@@ -80,8 +124,16 @@ export default function RegisterPage() {
               ))}
             </div>
           </div>
-          <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2">
-            Create Account <ArrowRight className="w-4 h-4" />
+          <button 
+            type="submit" 
+            disabled={isLoading}
+            className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>Create Account <ArrowRight className="w-4 h-4" /></>
+            )}
           </button>
         </form>
 

@@ -55,3 +55,18 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     
     access_token = create_access_token(data={"sub": user.email, "role": user.role, "sport": user.primary_sport})
     return {"access_token": access_token, "token_type": "bearer", "role": user.role, "primary_sport": user.primary_sport}
+
+class PasswordReset(BaseModel):
+    email: str
+
+@router.post("/forgot-password")
+def forgot_password(reset_req: PasswordReset, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == reset_req.email).first()
+    if not user:
+        # Prevent email enumeration by returning a success-like message anyway
+        return {"message": "If that email is registered, a recovery link has been sent."}
+    
+    # In a real application, you would generate a secure token here, save it to the DB with an expiration,
+    # and send an email via an SMTP service (e.g. SendGrid, Mailgun) or Firebase Auth via SMTP.
+    # For now, we simulate an email sent response.
+    return {"message": "If that email is registered, a recovery link has been sent."}
